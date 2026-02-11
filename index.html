@@ -8,7 +8,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Umrah Duas" />
 
-  <!-- Optional: add your own icons -->
   <link rel="manifest" href="manifest.webmanifest" />
 
   <title>Umrah Duas</title>
@@ -20,33 +19,46 @@
 
   <style>
     :root{
-      --bg: #0b1220;
-      --card: rgba(255,255,255,.08);
-      --card2: rgba(255,255,255,.10);
+      /* Calm, consistent dark theme */
+      --bg0: #0b1220;
+      --bg1: #070c16;
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.65);
+      --muted: rgba(255,255,255,.62);
       --border: rgba(255,255,255,.14);
+
       --accent: #7dd3fc;
       --accent2:#a78bfa;
       --good:#34d399;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+      --shadow: 0 10px 26px rgba(0,0,0,.30);
       --radius: 18px;
+
       --safeTop: env(safe-area-inset-top);
       --safeBottom: env(safe-area-inset-bottom);
       --safeLeft: env(safe-area-inset-left);
       --safeRight: env(safe-area-inset-right);
+
       --arabicSize: 22px;
       --bodySize: 14px;
     }
 
     [data-theme="light"]{
-      --bg: #f6f7fb;
-      --card: rgba(14,23,42,.06);
-      --card2: rgba(14,23,42,.08);
+      /* Soft light theme */
+      --bg0: #f6f7fb;
+      --bg1: #eef1f7;
+
+      --card: rgba(14,23,42,.05);
+      --card2: rgba(14,23,42,.07);
+
       --text: rgba(14,23,42,.92);
       --muted: rgba(14,23,42,.60);
       --border: rgba(14,23,42,.12);
-      --shadow: 0 10px 30px rgba(14,23,42,.15);
+
+      --shadow: 0 10px 24px rgba(14,23,42,.14);
     }
 
     *{ box-sizing:border-box; }
@@ -54,12 +66,16 @@
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: background: linear-gradient(180deg, rgba(11,18,32,1) 0%, rgba(9,14,24,1) 100%),
-      radial-gradient(900px 600px at 15% 0%, rgba(125,211,252,.10), transparent 60%),
-      radial-gradient(900px 600px at 85% 10%, rgba(167,139,250,.08), transparent 55%);
       color: var(--text);
       font-size: var(--bodySize);
       letter-spacing: .1px;
+
+      /* Calmer + consistent background (less patchy than before) */
+      background:
+        radial-gradient(900px 600px at 15% 0%, rgba(125,211,252,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 10%, rgba(167,139,250,.08), transparent 58%),
+        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%);
+      background-attachment: fixed;
     }
 
     .app{
@@ -88,8 +104,8 @@
       letter-spacing:.2px;
     }
     .brand .sub{
-      color: var(--muted);
-      font-size: 12px;
+      color:var(--muted);
+      font-size:12px;
       line-height:1.3;
       max-width: 46ch;
     }
@@ -103,7 +119,7 @@
     }
     .pill{
       border:1px solid var(--border);
-      background: linear-gradient(180deg, var(--card2), var(--card));
+      background: rgba(255,255,255,.05);
       border-radius: 999px;
       padding: 9px 12px;
       box-shadow: var(--shadow);
@@ -112,7 +128,12 @@
       gap:8px;
       align-items:center;
       user-select:none;
+      backdrop-filter: blur(10px);
     }
+    [data-theme="light"] .pill{
+      background: rgba(255,255,255,.70);
+    }
+
     .pill button{
       all:unset;
       cursor:pointer;
@@ -135,12 +156,17 @@
       gap:10px;
       align-items:center;
       border:1px solid var(--border);
-      background: linear-gradient(180deg, var(--card2), var(--card));
+      background: rgba(255,255,255,.05);
       border-radius: var(--radius);
       padding: 10px 12px;
       box-shadow: var(--shadow);
       margin-bottom: 12px;
+      backdrop-filter: blur(10px);
     }
+    [data-theme="light"] .searchbar{
+      background: rgba(255,255,255,.75);
+    }
+
     .searchbar input{
       width:100%;
       border:none;
@@ -150,6 +176,7 @@
       font-size: 14px;
     }
     .searchbar input::placeholder{ color: var(--muted); }
+
     .chiprow{
       display:flex;
       gap:8px;
@@ -158,18 +185,22 @@
     }
     .chip{
       border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.04);
       border-radius: 999px;
       padding: 8px 10px;
       font-size:12px;
       color: var(--muted);
       cursor:pointer;
       user-select:none;
-      transition: transform .08s ease;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
     }
+    [data-theme="light"] .chip{
+      background: rgba(255,255,255,.65);
+    }
+
     .chip:active{ transform: scale(.98); }
     .chip[data-active="true"]{
-      background: linear-gradient(135deg, rgba(125,211,252,.20), rgba(167,139,250,.18));
+      background: linear-gradient(135deg, rgba(125,211,252,.16), rgba(167,139,250,.12));
       color: var(--text);
       border-color: rgba(125,211,252,.35);
     }
@@ -180,13 +211,19 @@
       gap: 12px;
     }
 
+    /* More consistent, less "stripy" cards */
     .card{
       border:1px solid var(--border);
-      background: rgba(255,255,255,.07);
+      background: rgba(255,255,255,.05);
       border-radius: 22px;
       box-shadow: var(--shadow);
       overflow:hidden;
+      backdrop-filter: blur(10px);
     }
+    [data-theme="light"] .card{
+      background: rgba(255,255,255,.78);
+    }
+
     .cardTop{
       padding: 14px 14px 0;
       display:flex;
@@ -194,9 +231,7 @@
       align-items:flex-start;
       justify-content:space-between;
     }
-    .meta{
-      min-width:0;
-    }
+    .meta{ min-width:0; }
     .section{
       font-size: 11px;
       color: var(--muted);
@@ -219,19 +254,22 @@
       width:38px; height:38px;
       border-radius: 12px;
       border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.04);
       display:grid;
       place-items:center;
       cursor:pointer;
       user-select:none;
-      transition: transform .08s ease;
+      transition: transform .08s ease, background .18s ease;
     }
+    [data-theme="light"] .iconBtn{
+      background: rgba(255,255,255,.70);
+    }
+    .iconBtn:hover{ background: rgba(255,255,255,.07); }
     .iconBtn:active{ transform: scale(.98); }
     .iconBtn svg{ opacity:.92; }
 
-    .content{
-      padding: 0 14px 14px;
-    }
+    .content{ padding: 0 14px 14px; }
+
     .label{
       font-size: 11px;
       color: var(--muted);
@@ -239,6 +277,7 @@
       text-transform: uppercase;
       margin: 10px 0 6px;
     }
+
     .arabic{
       font-family: "Noto Naskh Arabic", "Noto Sans Arabic", Arial, sans-serif;
       font-size: var(--arabicSize);
@@ -250,9 +289,13 @@
       padding: 10px 12px;
       border-radius: 16px;
       border: 1px solid var(--border);
-      background: rgba(0,0,0,.12);
+
+      /* calmer panel */
+      background: rgba(0,0,0,.14);
     }
-    [data-theme="light"] .arabic{ background: rgba(14,23,42,.05); }
+    [data-theme="light"] .arabic{
+      background: rgba(14,23,42,.045);
+    }
 
     .text{
       margin:0;
@@ -263,7 +306,9 @@
       border: 1px solid var(--border);
       background: rgba(0,0,0,.10);
     }
-    [data-theme="light"] .text{ background: rgba(14,23,42,.04); }
+    [data-theme="light"] .text{
+      background: rgba(14,23,42,.035);
+    }
 
     .notes{
       margin-top: 10px;
@@ -298,14 +343,17 @@
       left: 0; right: 0;
       bottom: 0;
       padding: 10px calc(14px + var(--safeLeft)) calc(10px + var(--safeBottom)) calc(14px + var(--safeRight));
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.32) 35%, rgba(0,0,0,.55));
       display:flex;
       justify-content:center;
       pointer-events:none;
+
+      /* calmer dock fade */
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.18) 40%, rgba(0,0,0,.42));
     }
     [data-theme="light"] .footerDock{
-      background: linear-gradient(180deg, transparent, rgba(246,247,251,.72) 35%, rgba(246,247,251,.92));
+      background: linear-gradient(180deg, transparent, rgba(246,247,251,.70) 45%, rgba(246,247,251,.92));
     }
+
     .dockInner{
       pointer-events:auto;
       width:min(920px, 100%);
@@ -314,11 +362,16 @@
       align-items:center;
       justify-content:space-between;
       border:1px solid var(--border);
-      background: linear-gradient(180deg, var(--card2), var(--card));
+      background: rgba(255,255,255,.05);
       border-radius: 20px;
       padding: 10px 12px;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
+    [data-theme="light"] .dockInner{
+      background: rgba(255,255,255,.82);
+    }
+
     .dockLeft{
       display:flex;
       gap:10px;
@@ -348,16 +401,20 @@
     }
     .dockBtn{
       border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.04);
       border-radius: 14px;
       padding: 9px 10px;
       font-size:12px;
       color: var(--text);
       cursor:pointer;
       user-select:none;
-      transition: transform .08s ease;
+      transition: transform .08s ease, background .18s ease;
       font-weight: 700;
     }
+    [data-theme="light"] .dockBtn{
+      background: rgba(255,255,255,.70);
+    }
+    .dockBtn:hover{ background: rgba(255,255,255,.07); }
     .dockBtn:active{ transform: scale(.98); }
 
     .hint{
@@ -439,8 +496,7 @@
   <div class="toast" id="toast">Copied</div>
 
   <script>
-    // --- Data (duas extracted from the guide you used earlier) ---
-    // You can edit titles/sections freely.
+    // --- Data (duas extracted from your guide) ---
     const DUAS = [
       {
         id: "niyyah-1",
@@ -475,16 +531,16 @@
         title: "Talbiyah",
         arabic: "لَبَّيْكَ اَللَّهُمَّ لَبَّيْكَ – لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ – إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ – لَا شَرِيكَ لَكَ –",
         translit: "Labbayka Llāhumma labbayk, labbayka lā sharīka laka labbayk, inna l-ḥamda wa n-niʿmata, laka wa l-mulk, lā sharīka lak.",
-        meaning: "At Your service, Allah… Truly all praise, favour and sovereignty are Yours. You have no partner.",
-        notes: "Repeat often until you reach the mosque (per your guide)."
+        meaning: "At Your service, O Allah, at Your service. At Your service, You have no partner, at Your service. Truly all praise and favour are Yours, and sovereignty. You have no partner.",
+        notes: "Repeat often until you reach the mosque (per the guide)."
       },
       {
         id: "haram-boundary",
         section: "Entering Makkah",
         title: "Entering the Haram boundary",
         arabic: "اَللَّهُمَّ هَذَا حَرَمُكَ وَأَمْنُكَ فَحَرِّمْنِي عَلَى النَّارِ ❁ وَأَمِنِّي مِنْ عَذَابِكَ يَوْمَ تَبْعَثُ عِبَادَكَ ❁ وَاجْعَلْنِي مِنْ أَوْلِيَائِكَ وَأَهْلِ طَاعَتِكَ",
-        translit: "Allāhumma hādhā ḥaramuka wa amnuka fa ḥarrimnī ʿala n-nār…",
-        meaning: "O Allah, this is Your sanctuary and security… make me safe from Your punishment…",
+        translit: "Allāhumma hādhā ḥaramuka wa amnuka fa ḥarrimnī ʿala n-nār, wa aminnī min ʿadhābika yawma tabʿathu ʿibādak, wa jʿalnī min awliyā’ika wa ahli ṭāʿatik.",
+        meaning: "O Allah, this is Your sanctuary and Your security, so make me forbidden for the Fire. Make me safe from Your punishment on the Day You resurrect Your servants, and make me among Your allies (friends) and among the people who obey You.",
         notes: ""
       },
       {
@@ -492,8 +548,8 @@
         section: "Masjid al-Haram",
         title: "Entering the mosque",
         arabic: "بِسْمِ اللهِ ❁ اَللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ ❁ اللّٰهُمَّ اغْفِرْ لِي وَافْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
-        translit: "Bismi Llāh. Allāhumma ṣalli ʿalā Muḥammad…",
-        meaning: "In the name of Allah… O Allah, forgive me and open for me the doors of Your Mercy.",
+        translit: "Bismi Llāh. Allāhumma ṣalli ʿalā Muḥammad. Allāhumma-ghfir lī wa-ftaḥ lī abwāba raḥmatik.",
+        meaning: "In the name of Allah. O Allah, send prayers and peace upon Muhammad. O Allah, forgive me and open for me the doors of Your mercy.",
         notes: "Enter with the right foot."
       },
       {
@@ -501,8 +557,8 @@
         section: "Masjid al-Haram",
         title: "Protection from Shaytan (entering mosque)",
         arabic: "أَعُوذُ بِاللهِ الْعَظِيمِ ❁ وَبِوَجْهِهِ الْكَرِيمِ ❁ وَسُلْطَانِهِ الْقَدِيمِ ❁ مِنَ الشَّيْطَانِ الرَّجِيمِ",
-        translit: "Aʿūdhu bi-Llāhi l-aẓīm… mina sh-shayṭāni r-rajīm.",
-        meaning: "I seek protection in Allah… from Shaytan the rejected.",
+        translit: "Aʿūdhu bi-Llāhi l-aẓīm, wa bi-wajhihi l-karīm, wa sulṭānihi l-qadīm, mina sh-shayṭāni r-rajīm.",
+        meaning: "I seek refuge in Allah, the Magnificent, and in His Noble Face, and in His Eternal Authority, from Satan, the accursed.",
         notes: ""
       },
       {
@@ -511,7 +567,7 @@
         title: "On first sight of the Kaaba (x3)",
         arabic: "اللّٰهُ أَكْبَرُ ❁ اللّٰهُ أَكْبَرُ ❁ لَآ اِلَهَ اِلَّا اللّٰهُ",
         translit: "Allāhu akbar. Allāhu akbar. Lā ilāha illa Llāh.",
-        meaning: "Allah is the Greatest… There is no God except Allah.",
+        meaning: "Allah is the Greatest. Allah is the Greatest. There is no deity except Allah.",
         notes: "Guide note: recite 3 times, then make du’a."
       },
       {
@@ -519,8 +575,8 @@
         section: "First sight of Kaaba",
         title: "Du’a: increase this House in honour",
         arabic: "اَللَّهُمَّ زِدْ هَذَا الْبَيْتَ تَشْرِيفاً وَتَعْظِيماً وَتَكْرِيماً وَمَهَابَةً ❁ وَزِدْ مَنْ شَرَّفَهُ وَكَرَّمَهُ مِمَّنْ حَجَّهُ أَوْ اعْتَمَرَهُ تَشْرِيفاً وَتَكْرِيماً وَتَعْظِيماً وَبِرّاً",
-        translit: "Allāhumma zid hādha l-bayta tashrīfan…",
-        meaning: "Allah, increase this House in honour… and increase those who honour it…",
+        translit: "Allāhumma zid hādha l-bayta tashrīfan wa taʿẓīman wa takrīman wa mahābah, wa zid man sharrafahu wa karramahu mimman ḥajjahu aw iʿtamarahu tashrīfan wa takrīman wa taʿẓīman wa birrā.",
+        meaning: "O Allah, increase this House in honour, dignity, nobility and awe. And increase those who honour and revere it, from among those who perform Hajj or Umrah, in honour, dignity, nobility and righteousness.",
         notes: ""
       },
       {
@@ -528,8 +584,8 @@
         section: "First sight of Kaaba",
         title: "Du’a: Allah, You are Peace",
         arabic: "اَللَّهُمَّ أَنْتَ السَّلاَمُ ❁ وَمِنْكَ السَّلَامُ ❁ حَيِّنَا رَبَّنَا بِالسَّلاَمِ",
-        translit: "Allāhumma anta s-salām…",
-        meaning: "O Allah, You are Peace and from You is peace…",
+        translit: "Allāhumma anta s-salām, wa minka s-salām, ḥayyinā rabbanā bi s-salām.",
+        meaning: "O Allah, You are Peace and from You comes peace, so grant us life, our Lord, with peace.",
         notes: ""
       },
       {
@@ -537,8 +593,8 @@
         section: "Tawaf",
         title: "Niyyah for Tawaf",
         arabic: "اَللَّهُمَّ إِنِّي أُرِيدُ طَوَافَ بَيْتِكَ الْحَرَامِ فَيَسِّرْهُ لِي وَتَقَبَّلْهُ مِنِّي",
-        translit: "Allāhumma innī urīdu l-ṭawwafa baytika l-ḥarāmi…",
-        meaning: "O Allah, I intend to perform Tawaf… make it easy for me and accept it from me.",
+        translit: "Allāhumma innī urīdu l-ṭawwafa baytika l-ḥarāmi fa yassirhu lī wa taqabbalhu minnī.",
+        meaning: "O Allah, I intend to perform Tawaf of Your Sacred House, so make it easy for me and accept it from me.",
         notes: ""
       },
       {
@@ -555,8 +611,8 @@
         section: "Tawaf",
         title: "Du’a when parallel to Hajar al-Aswad",
         arabic: "بِسْمِ اللّٰهِ وَاللّٰهُ أَكْبَرُ ❁ اَللَّهُمَّ إِيمَاناً بِكَ وَتَصْدِيقاً بِكِتَابِكَ ❁ وَوَفَاءً بِعَهْدِكَ ❁ وَاتِّبَاعاً لِسُنَّةِ نَبِيِّكَ مُحَمَّدْ",
-        translit: "Bismi Llāhi wa Llāhu akbar… wattibāʿan li sunnati nabiyyika Muḥammad ﷺ.",
-        meaning: "O Allah, out of faith in You… and in emulation of Your Prophet’s sunnah ﷺ.",
+        translit: "Bismi Llāhi wa Llāhu akbar. Allāhumma īmānan bika wa taṣdīqan bi kitābik, wa wafāʿan bi ʿahdik, wattibāʿan li sunnati nabiyyika Muḥammad ﷺ.",
+        meaning: "In the name of Allah, Allah is the Greatest. O Allah, (I do this) with faith in You, affirming the truth of Your Book, fulfilling Your covenant, and following the Sunnah of Your Prophet Muhammad ﷺ.",
         notes: ""
       },
       {
@@ -564,8 +620,8 @@
         section: "Tawaf",
         title: "Between Rukn al-Yamani and Hajar al-Aswad",
         arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
-        translit: "Rabbanā ātinā fi d-dunyā ḥasanatan…",
-        meaning: "Our Lord, grant us good in this world and the Hereafter, and save us from the Fire.",
+        translit: "Rabbanā ātinā fi d-dunyā ḥasanatan wa fi l-ākhirati ḥasanatan wa qinā ʿadhāba n-nār.",
+        meaning: "Our Lord, grant us good in this world and the Hereafter, and save us from the punishment of the Fire.",
         notes: "Qur’an 2:201"
       },
       {
@@ -582,7 +638,7 @@
         section: "Zamzam",
         title: "After drinking Zamzam",
         arabic: "اللّٰهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا ❁ وَرِزْقًا وَاسِعًا ❁ وَعَمَلًا مُتَقَبَّلًا ❁ وَشِفَاءً مِنْ كُلِّ دَاءٍ",
-        translit: "Allāhumma innī as’aluka ʿilman nāfiʿa…",
+        translit: "Allāhumma innī as’aluka ʿilman nāfiʿa, wa rizqan wasiʿa, wa ʿamalan mutaqabbala, wa shifā’an min kulli dā’.",
         meaning: "O Allah, I ask You for beneficial knowledge, abundant provision, accepted deeds, and a cure for every illness.",
         notes: ""
       },
@@ -600,8 +656,8 @@
         section: "Sa’i",
         title: "At Safa (repeat at Marwa) — recite x3 with your du’a between",
         arabic: "اللّٰهُ أَكْبَرُ ❁ اللّٰهُ أَكْبَرُ ❁ اللّٰهُ أَكْبَرُ ❁ وَلِلّٰهِ الْحَمْدُ\n\nلَآ إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لاَ شَرِيكَ لَهُ ❁ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ ❁ يُحْيِي وَيُمِيتُ ❁ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ\n\nلَآ إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ ❁ اَنْجَزَ وَعْدَهُ وَنَصَرَ عَبْدَهُ وَهَزَمَ اَلْأَحْزَابَ وَحْدَهُ",
-        translit: "Allāhu akbar… wa li Llāhi l-ḥamd.\n\nLa ilāha illa Llāhu waḥdahu… wa huwa ʿalā kulli shay’in qadīr.\n\nLa ilāha illa Llāhu waḥdah… hazama l-aḥzāba waḥdah.",
-        meaning: "Allah is the Greatest… to Allah belongs all praise.\n\nThere is no deity except Allah alone… He gives life and death…\n\nAllah alone fulfilled His promise… and defeated the Confederates alone.",
+        translit: "Allāhu akbar, Allāhu akbar, Allāhu akbar, wa li Llāhi l-ḥamd.\n\nLa ilāha illa Llāhu waḥdahu la sharīka lah, lahu l-mulku wa lahu l-ḥamd, yuḥīī wa yumīt, wa huwa ʿalā kulli shay’in qadīr.\n\nLa ilāha illa Llāhu waḥdah, anjaza waʿdahu wa naṣara ʿabdahu wa hazama l-aḥzāba waḥdah.",
+        meaning: "Allah is the Greatest, Allah is the Greatest, Allah is the Greatest; and to Allah belongs all praise. There is no deity except Allah alone, without partner. To Him belongs the dominion and to Him belongs all praise. He gives life and causes death, and He has power over all things. There is no deity except Allah alone. He fulfilled His promise, supported His servant, and defeated the confederates alone.",
         notes: "Guide note: recite 3 times; make your own du’a in between."
       },
       {
@@ -610,7 +666,7 @@
         title: "Leaving Masjid al-Haram",
         arabic: "بِسْمِ اللهِ وَالصَّلَاةُ وَالسَّلَّامُ عَلَى رَسُولِ اللهِ ❁ اللّٰهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
         translit: "Bismi Llāhi wa ṣ-ṣalātu wa s-salāmu ʿalā rasūli Llāh. Allāhumma innī as’aluka min faḍlik.",
-        meaning: "In the name of Allah… O Allah, I ask You from Your bounty.",
+        meaning: "In the name of Allah, and prayers and peace be upon the Messenger of Allah. O Allah, I ask You from Your bounty.",
         notes: "Exit with the left foot."
       },
     ];
@@ -647,15 +703,15 @@
     if (savedArabic) document.documentElement.style.setProperty("--arabicSize", savedArabic + "px");
     if (savedBody) document.documentElement.style.setProperty("--bodySize", savedBody + "px");
 
-    // Network indicator + offline friendliness
+    // Network indicator
     const netDot = el("netDot");
     const netText = el("netText");
     function updateNet(){
       const online = navigator.onLine;
       netDot.classList.toggle("online", online);
       netText.textContent = online
-        ? "Online (cached for offline use if installed)"
-        : "Offline (you’re good — cached content should still work)";
+        ? "Online (cached for offline use when installed)"
+        : "Offline (cached content should still work)";
     }
     window.addEventListener("online", updateNet);
     window.addEventListener("offline", updateNet);
@@ -692,7 +748,6 @@
         await navigator.clipboard.writeText(text);
         toast("Copied ✅");
       }catch{
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         document.body.appendChild(ta);
@@ -784,7 +839,7 @@
         card.querySelector('[data-action="fav"]').addEventListener("click", ()=>{
           if (favs.has(d.id)) favs.delete(d.id); else favs.add(d.id);
           localStorage.setItem(STORAGE.favs, JSON.stringify(Array.from(favs)));
-          render(); // quick refresh
+          render();
           toast(favs.has(d.id) ? "Saved to Favourites ❤️" : "Removed");
         });
 
@@ -804,7 +859,6 @@
     }
 
     function formatArabic(str){
-      // Preserve line breaks nicely
       return escapeHtml(str).replace(/\n/g, "<br/>");
     }
 
@@ -815,9 +869,7 @@
     }
 
     // Search
-    qEl.addEventListener("input", ()=>{
-      render();
-    });
+    qEl.addEventListener("input", ()=> render());
 
     // Theme toggle
     el("themeToggle").addEventListener("click", ()=>{
