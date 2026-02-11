@@ -63,7 +63,7 @@ If you try it, I’d really value:
 - Layout issues on your device
 
 **How to send feedback**
-- Open a GitHub Issue: https://github.com/h5vmprj6q9-ui/umrah-duas/issues
+- Open a GitHub Issue: https://github.com/Mohammed-Jama-SB/umrah-duas/issues
 - Or message me directly with screenshots + what device/browser you used.
 
 ---
