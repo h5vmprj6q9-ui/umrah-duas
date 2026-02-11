@@ -78,4 +78,16 @@ If you notice anything that should be attributed differently or corrected, pleas
 
 ---
 
-## Discla
+## Disclaimer
+
+This is a hobby project for personal use and community feedback.
+Please always verify du’as and rulings with reliable scholars/resources.
+I’m happy to correct and improve the app, but I’m not issuing religious rulings.
+
+---
+
+## Tech stack
+
+- Plain HTML / CSS / Vanilla JS
+- Service Worker for offline caching
+- Hosted on Vercel
