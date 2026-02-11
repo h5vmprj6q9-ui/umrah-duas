@@ -1,4 +1,4 @@
-const CACHE = "umrah-duas-v1";
+const CACHE = "umrah-duas-v2";
 const ASSETS = [
   "./",
   "./index.html",
