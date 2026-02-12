@@ -1,9 +1,12 @@
-const CACHE = "umrah-duas-v2";
+const CACHE = "umrah-duas-v3"; // ← INCREMENT ON EVERY DEPLOY WITH CONTENT CHANGES
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./sw.js"
+  "./sw.js",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "./icons/icon-180.png"
 ];
 
 self.addEventListener("install", (event) => {

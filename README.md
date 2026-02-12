@@ -21,8 +21,11 @@ I’m sharing this early for feedback.
 
 ## Features
 
+- ✅ 23 du'as covering every stage of Umrah
+- ✅ Completion (Halq/Taqsir) section
+- ✅ Contextual notes for Multazam and Sa'i green lights
 - ✅ Mobile-first UI (works great on iOS)
-- ✅ Installable as an app (PWA)
+- ✅ Installable as an app (PWA) with proper icons
 - ✅ Offline caching (once opened online at least once)
 - ✅ Search across Arabic / transliteration / meaning
 - ✅ Favourites (stored locally on your device)
