@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1a2e"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+  <!-- Kaaba body -->
+  <rect x="176" y="200" width="160" height="140" rx="6" fill="#7dd3fc" opacity="0.9"/>
+  <!-- Kaaba cloth band (kiswa) -->
+  <rect x="176" y="250" width="160" height="24" fill="#0b1220" opacity="0.5"/>
+  <!-- Kaaba door -->
+  <rect x="236" y="268" width="40" height="56" rx="4" fill="#0b1220" opacity="0.4"/>
+  <rect x="236" y="268" width="40" height="56" rx="4" fill="none" stroke="#7dd3fc" stroke-width="2" opacity="0.6"/>
+  <!-- Kaaba roof edge -->
+  <rect x="168" y="192" width="176" height="16" rx="4" fill="#7dd3fc"/>
+  <!-- Du'a hands (open palms) -->
+  <g fill="none" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <!-- Left hand -->
+    <path d="M200 180 C200 150, 210 120, 220 110"/>
+    <path d="M208 180 C208 155, 215 130, 228 118"/>
+    <path d="M216 182 C216 160, 220 140, 234 128"/>
+    <!-- Right hand -->
+    <path d="M312 180 C312 150, 302 120, 292 110"/>
+    <path d="M304 180 C304 155, 297 130, 284 118"/>
+    <path d="M296 182 C296 160, 292 140, 278 128"/>
+  </g>
+  <!-- Subtle star/crescent accent -->
+  <circle cx="256" cy="164" r="4" fill="#7dd3fc" opacity="0.7"/>
+  <!-- App name arc hint -->
+  <text x="256" y="390" text-anchor="middle" fill="#7dd3fc" font-family="Inter, sans-serif" font-size="32" font-weight="600" opacity="0.9">Umrah Duas</text>
+</svg>

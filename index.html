@@ -7,8 +7,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Umrah Duas" />
+  <meta name="description" content="Quick Umrah du'a reference with Arabic, transliteration, and English meaning. Works offline. Search, favourite, and adjust text size.">
+  <meta property="og:title" content="Umrah Duas">
+  <meta property="og:description" content="A simple, offline-ready Umrah du'a companion. Arabic text, transliteration, and English meanings for every stage of Umrah.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://umrah-duas.vercel.app/">
+  <meta property="og:image" content="https://umrah-duas.vercel.app/icons/icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Umrah Duas">
+  <meta name="twitter:description" content="Offline-ready Umrah du'a companion with Arabic, transliteration, and English meanings.">
 
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 
   <title>Umrah Duas</title>
 
@@ -27,7 +38,7 @@
       --card2: rgba(255,255,255,.08);
 
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
+      --muted: rgba(255,255,255,.70);
       --border: rgba(255,255,255,.14);
 
       --accent: #7dd3fc;
@@ -42,7 +53,7 @@
       --safeLeft: env(safe-area-inset-left);
       --safeRight: env(safe-area-inset-right);
 
-      --arabicSize: 22px;
+      --arabicSize: 24px;
       --bodySize: 14px;
     }
 
@@ -137,7 +148,13 @@
     .pill button{
       all:unset;
       cursor:pointer;
-      padding: 0 2px;
+      min-height: 44px;
+      min-width: 44px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: var(--text);
       font-weight:600;
       font-size:12px;
@@ -146,9 +163,15 @@
     .pill .mini{
       all:unset;
       cursor:pointer;
+      min-height: 44px;
+      min-width: 44px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: var(--muted);
       font-size:12px;
-      padding: 0 2px;
     }
 
     .searchbar{
@@ -167,6 +190,9 @@
       background: rgba(255,255,255,.75);
     }
 
+    .searchbar{
+      position: relative;
+    }
     .searchbar input{
       width:100%;
       border:none;
@@ -176,6 +202,15 @@
       font-size: 14px;
     }
     .searchbar input::placeholder{ color: var(--muted); }
+    #clearSearch{
+      all:unset;
+      cursor:pointer;
+      font-size: 18px;
+      color: var(--muted);
+      padding: 4px 8px;
+      display: none;
+    }
+    #clearSearch.visible{ display: inline-block; }
 
     .chiprow{
       display:flex;
@@ -187,11 +222,14 @@
       border:1px solid var(--border);
       background: rgba(255,255,255,.04);
       border-radius: 999px;
-      padding: 8px 10px;
+      padding: 12px 14px;
+      min-height: 40px;
       font-size:12px;
       color: var(--muted);
       cursor:pointer;
       user-select:none;
+      display: inline-flex;
+      align-items: center;
       transition: transform .08s ease, background .18s ease, border-color .18s ease;
     }
     [data-theme="light"] .chip{
@@ -416,6 +454,11 @@
     }
     .dockBtn:hover{ background: rgba(255,255,255,.07); }
     .dockBtn:active{ transform: scale(.98); }
+    .dockBtn.active{
+      background: var(--accent);
+      color: #0b1220;
+      font-weight: 600;
+    }
 
     .hint{
       margin-top: 12px;
@@ -431,6 +474,17 @@
       padding: 18px 14px;
       text-align:center;
       color: var(--muted);
+    }
+
+    .section-heading{
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 24px 0 8px 4px;
+      margin: 0;
+      border-bottom: 1px solid var(--border);
     }
 
     @media (min-width: 860px){
@@ -467,7 +521,8 @@
         <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" opacity=".8"/>
         <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" opacity=".8" stroke-linecap="round"/>
       </svg>
-      <input id="q" type="search" placeholder="Search: tawaf, zamzam, labbayk, fire, mercy…" autocomplete="off" />
+      <input id="q" type="search" placeholder="Search: tawaf, zamzam, labbayk, fire, mercy…" autocomplete="off" aria-label="Search du'as" />
+      <button id="clearSearch" aria-label="Clear search">×</button>
     </div>
 
     <div class="chiprow" id="chips"></div>
@@ -540,7 +595,7 @@
         title: "Entering the Haram boundary",
         arabic: "اَللَّهُمَّ هَذَا حَرَمُكَ وَأَمْنُكَ فَحَرِّمْنِي عَلَى النَّارِ ❁ وَأَمِنِّي مِنْ عَذَابِكَ يَوْمَ تَبْعَثُ عِبَادَكَ ❁ وَاجْعَلْنِي مِنْ أَوْلِيَائِكَ وَأَهْلِ طَاعَتِكَ",
         translit: "Allāhumma hādhā ḥaramuka wa amnuka fa ḥarrimnī ʿala n-nār, wa aminnī min ʿadhābika yawma tabʿathu ʿibādak, wa jʿalnī min awliyā’ika wa ahli ṭāʿatik.",
-        meaning: "O Allah, this is Your sanctuary and Your security, so make me forbidden for the Fire. Make me safe from Your punishment on the Day You resurrect Your servants, and make me among Your allies (friends) and among the people who obey You.",
+        meaning: "O Allah, this is Your sanctuary and Your security, so make me unlawful to the Hellfire. Make me safe from Your punishment on the Day You resurrect Your servants, and make me among Your allies (friends) and among the people who obey You.",
         notes: ""
       },
       {
@@ -593,7 +648,7 @@
         section: "Tawaf",
         title: "Niyyah for Tawaf",
         arabic: "اَللَّهُمَّ إِنِّي أُرِيدُ طَوَافَ بَيْتِكَ الْحَرَامِ فَيَسِّرْهُ لِي وَتَقَبَّلْهُ مِنِّي",
-        translit: "Allāhumma innī urīdu l-ṭawwafa baytika l-ḥarāmi fa yassirhu lī wa taqabbalhu minnī.",
+        translit: "Allāhumma innī urīdu ṭawāfa baytika l-ḥarāmi fa yassirhu lī wa taqabbalhu minnī.",
         meaning: "O Allah, I intend to perform Tawaf of Your Sacred House, so make it easy for me and accept it from me.",
         notes: ""
       },
@@ -625,6 +680,15 @@
         notes: "Qur’an 2:201"
       },
       {
+        id: "tawaf-multazam",
+        section: "Tawaf",
+        title: "The Multazam — a place where du'a is accepted",
+        arabic: "",
+        translit: "",
+        meaning: "The Multazam is the area between the Hajar al-Aswad (Black Stone) and the door of the Kaaba. It is reported that du'as made here are accepted. If you are able to reach it, place your chest, face, and hands against the wall and make any personal du'a from your heart.",
+        notes: "This is a contextual guide. Access to the Multazam may be difficult during busy times."
+      },
+      {
         id: "maqam-verse",
         section: "Maqam Ibrahim",
         title: "Verse: take Maqam Ibrahim as a place of salah",
@@ -643,9 +707,18 @@
         notes: ""
       },
       {
+        id: "sai-baqarah-158",
+        section: "Sa'i",
+        title: "Verse recited when approaching Safa (Quran 2:158)",
+        arabic: "إِنَّ ٱلصَّفَا وَٱلْمَرْوَةَ مِن شَعَآئِرِ ٱللَّهِ ۖ فَمَنْ حَجَّ ٱلْبَيْتَ أَوِ ٱعْتَمَرَ فَلَا جُنَاحَ عَلَيْهِ أَن يَطَّوَّفَ بِهِمَا ۚ وَمَن تَطَوَّعَ خَيْرًا فَإِنَّ ٱللَّهَ شَاكِرٌ عَلِيمٌ",
+        translit: "Inna ṣ-Ṣafā wa l-Marwata min sha'ā'iri Llāh. Fa man ḥajja l-Bayta awi 'tamara fa lā junāḥa 'alayhi an yaṭṭawwafa bihimā. Wa man taṭawwa'a khayran fa inna Llāha Shākirun 'Alīm.",
+        meaning: "Indeed, Safa and Marwa are among the symbols of Allah. So whoever makes Hajj to the House or performs Umrah, there is no blame upon him for walking between them. And whoever volunteers good — then indeed, Allah is Appreciative and Knowing.",
+        notes: "Recited once when first approaching Safa, before beginning Sa'i. This is a sunnah of the Prophet ﷺ."
+      },
+      {
         id: "sai-start",
-        section: "Sa’i",
-        title: "Starting Sa’i",
+        section: "Sa'i",
+        title: "Starting Sa'i",
         arabic: "أَبْدَأُ بِمَا بَدَأَ اللهُ بِهِ",
         translit: "Abda’u bimā badā’ Llāhu bih.",
         meaning: "I begin with that which Allah has begun with.",
@@ -661,6 +734,15 @@
         notes: "Guide note: recite 3 times; make your own du’a in between."
       },
       {
+        id: "sai-green-lights",
+        section: "Sa'i",
+        title: "Between the green marker lights",
+        arabic: "",
+        translit: "",
+        meaning: "Between the two sets of green fluorescent lights (marking the valley), it is sunnah for men to jog lightly (raml). Women walk at their normal pace. Continue making du'a and dhikr throughout.",
+        notes: "This is a contextual reminder, not a specific du'a."
+      },
+      {
         id: "leave-masjid",
         section: "Leaving the Haram",
         title: "Leaving Masjid al-Haram",
@@ -668,6 +750,15 @@
         translit: "Bismi Llāhi wa ṣ-ṣalātu wa s-salāmu ʿalā rasūli Llāh. Allāhumma innī as’aluka min faḍlik.",
         meaning: "In the name of Allah, and prayers and peace be upon the Messenger of Allah. O Allah, I ask You from Your bounty.",
         notes: "Exit with the left foot."
+      },
+      {
+        id: "completion-halq",
+        section: "Completion",
+        title: "Completion of Umrah — Shaving or trimming the hair",
+        arabic: "اللَّهُمَّ تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+        translit: "Allāhumma taqabbal minnā innaka Anta s-Samī'u l-'Alīm.",
+        meaning: "O Allah, accept from us. Indeed, You are the All-Hearing, the All-Knowing.",
+        notes: "After completing Sa'i, men shave (halq) or trim (taqsir) their hair. Women trim a fingertip's length. This marks the completion of Umrah and the exit from the state of Ihram."
       },
     ];
 
@@ -680,26 +771,62 @@
       view: "umrah_duas_view" // all | favs
     };
 
+    function safeGetStorage(key, fallback = null) {
+      try {
+        const val = localStorage.getItem(key);
+        return val !== null ? JSON.parse(val) : fallback;
+      } catch (e) {
+        console.warn('localStorage read failed for', key, e);
+        return fallback;
+      }
+    }
+
+    function safeGetStorageRaw(key, fallback = null) {
+      try {
+        const val = localStorage.getItem(key);
+        return val !== null ? val : fallback;
+      } catch (e) {
+        console.warn('localStorage read failed for', key, e);
+        return fallback;
+      }
+    }
+
+    function safeSetStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        console.warn('localStorage write failed for', key, e);
+      }
+    }
+
+    function safeSetStorageRaw(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('localStorage write failed for', key, e);
+      }
+    }
+
     const el = (id)=>document.getElementById(id);
     const listEl = el("list");
     const chipsEl = el("chips");
     const toastEl = el("toast");
     const qEl = el("q");
 
-    let favs = new Set(JSON.parse(localStorage.getItem(STORAGE.favs) || "[]"));
+    let favs = new Set(safeGetStorage(STORAGE.favs, []));
     let activeSection = "All";
-    let viewMode = localStorage.getItem(STORAGE.view) || "all";
+    let viewMode = safeGetStorageRaw(STORAGE.view, "all");
 
     // Theme
     const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-    const savedTheme = localStorage.getItem(STORAGE.theme);
+    const savedTheme = safeGetStorageRaw(STORAGE.theme, null);
     const theme = savedTheme || (prefersLight ? "light" : "dark");
     document.documentElement.dataset.theme = theme;
     el("themeToggle").textContent = theme === "light" ? "Light" : "Dark";
 
     // Font sizes
-    const savedArabic = Number(localStorage.getItem(STORAGE.arabicSize));
-    const savedBody = Number(localStorage.getItem(STORAGE.bodySize));
+    const savedArabic = Number(safeGetStorageRaw(STORAGE.arabicSize, 0));
+    const savedBody = Number(safeGetStorageRaw(STORAGE.bodySize, 0));
     if (savedArabic) document.documentElement.style.setProperty("--arabicSize", savedArabic + "px");
     if (savedBody) document.documentElement.style.setProperty("--bodySize", savedBody + "px");
 
@@ -799,7 +926,15 @@
         return;
       }
 
+      let lastSection = "";
       items.forEach(d=>{
+        if (d.section !== lastSection) {
+          const heading = document.createElement("h2");
+          heading.className = "section-heading";
+          heading.textContent = d.section;
+          listEl.appendChild(heading);
+          lastSection = d.section;
+        }
         const card = document.createElement("div");
         card.className = "card";
 
@@ -812,10 +947,10 @@
               <h3 class="title">${escapeHtml(d.title)}</h3>
             </div>
             <div class="actions">
-              <div class="iconBtn" data-action="copy" title="Copy Arabic + Transliteration + Meaning">
+              <div class="iconBtn" data-action="copy" title="Copy Arabic + Transliteration + Meaning" role="button" aria-label="Copy du'a text">
                 ${copyIcon()}
               </div>
-              <div class="iconBtn" data-action="fav" title="Favourite">
+              <div class="iconBtn" data-action="fav" title="Favourite" role="button" aria-label="${isFav ? 'Remove from favourites' : 'Add to favourites'}">
                 ${heartIcon(isFav)}
               </div>
             </div>
@@ -823,7 +958,7 @@
 
           <div class="content">
             <div class="label">Arabic</div>
-            <p class="arabic">${formatArabic(d.arabic)}</p>
+            <p class="arabic" lang="ar" dir="rtl">${formatArabic(d.arabic)}</p>
 
             <div class="label">Transliteration</div>
             <p class="text">${escapeHtml(d.translit || "—")}</p>
@@ -838,7 +973,7 @@
         // Actions
         card.querySelector('[data-action="fav"]').addEventListener("click", ()=>{
           if (favs.has(d.id)) favs.delete(d.id); else favs.add(d.id);
-          localStorage.setItem(STORAGE.favs, JSON.stringify(Array.from(favs)));
+          safeSetStorage(STORAGE.favs, Array.from(favs));
           render();
           toast(favs.has(d.id) ? "Saved to Favourites ❤️" : "Removed");
         });
@@ -869,14 +1004,23 @@
     }
 
     // Search
-    qEl.addEventListener("input", ()=> render());
+    const clearBtn = el("clearSearch");
+    qEl.addEventListener("input", ()=> {
+      clearBtn.classList.toggle("visible", qEl.value.length > 0);
+      render();
+    });
+    clearBtn.addEventListener("click", ()=>{
+      qEl.value = "";
+      clearBtn.classList.remove("visible");
+      render();
+    });
 
     // Theme toggle
     el("themeToggle").addEventListener("click", ()=>{
       const cur = document.documentElement.dataset.theme;
       const next = cur === "light" ? "dark" : "light";
       document.documentElement.dataset.theme = next;
-      localStorage.setItem(STORAGE.theme, next);
+      safeSetStorageRaw(STORAGE.theme, next);
       el("themeToggle").textContent = next === "light" ? "Light" : "Dark";
       toast(next === "light" ? "Light mode" : "Dark mode");
     });
@@ -888,7 +1032,7 @@
     }
     function setPxVar(name, value, storageKey){
       document.documentElement.style.setProperty(name, value + "px");
-      localStorage.setItem(storageKey, String(value));
+      safeSetStorageRaw(storageKey, String(value));
       render();
     }
 
@@ -914,22 +1058,36 @@
     });
 
     // View mode
+    function updateDockActive() {
+      el("showFavs").classList.toggle("active", viewMode === "favs");
+      el("showAll").classList.toggle("active", viewMode === "all");
+    }
+
     el("showFavs").addEventListener("click", ()=>{
       viewMode = "favs";
-      localStorage.setItem(STORAGE.view, viewMode);
+      safeSetStorageRaw(STORAGE.view, viewMode);
       toast("Showing favourites");
+      updateDockActive();
       render();
     });
     el("showAll").addEventListener("click", ()=>{
       viewMode = "all";
-      localStorage.setItem(STORAGE.view, viewMode);
+      safeSetStorageRaw(STORAGE.view, viewMode);
       toast("Showing all");
+      updateDockActive();
       render();
     });
+
+    // Hide iOS install tip when already installed as PWA
+    if (window.navigator.standalone === true) {
+      const tip = document.querySelector('.hint');
+      if (tip) tip.style.display = 'none';
+    }
 
     // Init
     renderChips();
     render();
+    updateDockActive();
 
     // Service worker (offline cache)
     if ("serviceWorker" in navigator) {
